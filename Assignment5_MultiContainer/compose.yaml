@@ -1,0 +1,32 @@
+services:
+  web:
+    build: ./web
+    container_name: flask_web
+    ports:
+      - "8000:5000"
+    environment:
+      - APP_NAME=DevOps Multi-Container Demo
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - redis
+    networks:
+      - app_net
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis_db
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis_data:/data
+    networks:
+      - app_net
+    restart: unless-stopped
+
+volumes:
+  redis_data:
+
+networks:
+  app_net:
+    driver: bridge

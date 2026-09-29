@@ -1,0 +1,28 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/tanushkapatil/DevOps.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                echo 'Building application...'
+                sh 'python3 -m py_compile Assignment5_MultiContainer/web/app.py'
+                sh 'ls -la'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                echo 'Running tests...'
+                sh 'test -f README.md && echo "README found"'
+                sh 'git log --oneline -3'
+            }
+        }
+    }
+}

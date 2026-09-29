@@ -8,3 +8,7 @@ crash.log
 .env
 # Office temp files
 ~$*
+node_modules/
+
+# Ansible lab SSH keys
+Assignment8_K8s_Ansible/ansible/keys/

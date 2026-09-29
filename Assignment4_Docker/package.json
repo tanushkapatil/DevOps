@@ -1,0 +1,12 @@
+{
+  "name": "student-task-tracker",
+  "version": "1.0.0",
+  "description": "Simple task tracker web app used for the Docker migration assignment",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

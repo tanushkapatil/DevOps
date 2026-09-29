@@ -1,0 +1,22 @@
+# Pod that reads the ConfigMap and Secret as environment variables
+apiVersion: v1
+kind: Pod
+metadata:
+  name: config-demo
+  namespace: dev
+spec:
+  containers:
+    - name: app
+      image: busybox:1.36
+      command: ["sh", "-c", "echo APP_ENV=$APP_ENV DB_USER=$DB_USER && sleep 3600"]
+      env:
+        - name: APP_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: APP_ENV
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: db-secret
+              key: username

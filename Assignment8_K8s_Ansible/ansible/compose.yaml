@@ -1,0 +1,27 @@
+# Lab environment: 1 Ansible control node + 3 Ubuntu web servers
+services:
+  control:
+    build: { context: ., dockerfile: Dockerfile.control }
+    container_name: ansible-control
+    volumes:
+      - ./:/ansible
+    networks: [lab]
+  server1:
+    build: { context: ., dockerfile: Dockerfile.node }
+    container_name: server1
+    hostname: server1
+    ports: ["127.0.0.1:8181:80"]
+    networks: [lab]
+  server2:
+    build: { context: ., dockerfile: Dockerfile.node }
+    container_name: server2
+    hostname: server2
+    networks: [lab]
+  server3:
+    build: { context: ., dockerfile: Dockerfile.node }
+    container_name: server3
+    hostname: server3
+    networks: [lab]
+
+networks:
+  lab:

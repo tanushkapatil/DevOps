@@ -1,0 +1,36 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job">
+  <description>Declarative pipeline: Checkout, Build and Test stages</description>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps">
+    <script>pipeline {
+    agent any
+
+    stages {
+        stage(&#x27;Checkout&#x27;) {
+            steps {
+                git branch: &#x27;main&#x27;,
+                    url: &#x27;https://github.com/tanushkapatil/DevOps.git&#x27;
+            }
+        }
+
+        stage(&#x27;Build&#x27;) {
+            steps {
+                echo &#x27;Building application...&#x27;
+                sh &#x27;python3 -m py_compile Assignment5_MultiContainer/web/app.py&#x27;
+                sh &#x27;ls -la&#x27;
+            }
+        }
+
+        stage(&#x27;Test&#x27;) {
+            steps {
+                echo &#x27;Running tests...&#x27;
+                sh &#x27;test -f README.md &amp;&amp; echo &quot;README found&quot;&#x27;
+                sh &#x27;git log --oneline -3&#x27;
+            }
+        }
+    }
+}
+</script>
+    <sandbox>true</sandbox>
+  </definition>
+</flow-definition>

@@ -1,0 +1,42 @@
+# PersistentVolume -> PersistentVolumeClaim -> Pod
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: demo-pv
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: manual
+  hostPath:
+    path: /tmp/demo-pv
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: demo-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: manual
+  resources:
+    requests:
+      storage: 500Mi
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: storage-pod
+spec:
+  containers:
+    - name: app
+      image: busybox:1.36
+      command: ["sh", "-c", "echo 'Data stored on a PersistentVolume' > /data/message.txt && sleep 3600"]
+      volumeMounts:
+        - name: data
+          mountPath: /data
+  volumes:
+    - name: data
+      persistentVolumeClaim:
+        claimName: demo-pvc
